@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Ebill App</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script>
+  
+    
+  </head>
+  <body>
+      <div id="root"></div>
+      <script type="text/babel">
+        
+        class App extends React.Component{
+          constructor(props) {
+          super(props);
+          this.state = {
+            prev: '',
+            present: '',
+            result:'',
+            cost:'',
+            charge:0,
+            tbill:0,
+           
+          };
+          this.handlePresentChange = this.handlePresentChange.bind(this);
+          this.handlePrevChange = this.handlePrevChange.bind(this);
+          this.handleSubmit = this.handleSubmit.bind(this);
+
+
+          }
+          handlePrevChange(evt) {
+              this.setState({
+                prev: parseInt(evt.target.value) ,
+              });
+          }
+          handlePresentChange(evt) {
+              this.setState({
+                present: parseInt(evt.target.value),
+              });
+          }
+          handleSubmit(evt) {
+              evt.preventDefault();
+              if(this.state.prev<this.state.present){
+                  this.setState({
+                      result:parseInt( this.state.present-this.state.prev)
+                    
+                      
+                  });
+              }
+              else{
+                  alert("Previous month value cannot be less than present month!! Please Check Properly")
+              }
+              //energy cost
+              if(this.state.result>0 && this.state.result <=50){
+                  this.setState({
+                      cost:Math.round(this.state.result*1.45),
+                      charge:25,
+                      tbill:Math.round(this.state.cost+this.state.charge)
+              });
+              }
+              //charge
+              
+              if(this.state.result>50 && this.state.result <=100){
+                  this.setState({
+                      cost:Math.round(this.state.result*2.60),
+                      charge:30,
+                      tbill:Math.round(this.state.cost+this.state.charge)
+              });
+              }
+              if(this.state.result>100 && this.state.result <=200){
+                  this.setState({
+                      cost:Math.round(this.state.result*3.25),
+                      charge:50,
+                      tbill:Math.round(this.state.cost+this.state.charge)
+              });
+              }
+              if(this.state.result>200 && this.state.result <=400){
+                  this.setState({
+                      cost:Math.round(this.state.result*4.80),
+                      charge:60,
+                      tbill:Math.round(this.state.cost+this.state.charge)
+              });
+              }
+              if(this.state.result>400 ){
+                  this.setState({
+                      cost:Math.round(this.state.result*4.80),
+                      charge:80,
+                      tbill:Math.round(this.state.cost+this.state.charge)
+              });
+              }
+        
+          }
+          render(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+
+            if(dd<10) {
+                dd = '0'+dd
+            } 
+
+            if(mm<10) {
+                mm = '0'+mm
+            } 
+
+            today =  dd + '/' + mm + '/' + yyyy;
+            
+            var myVar = setInterval(myTimer, 1000);
+
+            function myTimer() {
+                var d = new Date();
+                var t = d.toLocaleTimeString();
+                document.getElementById("demo").innerHTML = t;
+            }
+
+            const footer={
+              backgroundColor: 'black',
+              color: 'white'
+            }
+            return(
+              <div>
+                  <nav className="navbar navbar-expand-sm|md|lg|-xl navbar-light bg-primary">
+                    <a className="navbar-brand" href="#">Ebill App</a>
+                    <button className="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                      <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="collapsibleNavId">
+                      <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li className="nav-item active">
+                          <a className="nav-link" href="index.html">Home <span className="sr-only">(current)</span></a>
+                        </li>
+                        <li className="nav-item">
+                          <a className="nav-link" href="https://linkedin.com/in/debasis-sutar-666945aa/">Contact Us</a>
+                        </li>
+                        
+                      </ul>
+                      
+                    </div>
+                  </nav>
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-sm-12 col-md-6">
+                        <h3>DATE:{today} <p id="demo"></p></h3>
+                        <div className="container">
+                            <form className="mt-4" onSubmit={this.handleSubmit} >
+                                
+                                <div className="container">
+                                    <div className="form-group mt-1">
+                                        <label>Enter Previous Month Unit</label>
+                                        <input type="number" className="form-control" value={this.state.prev} onChange={this.handlePrevChange}  required />
+                                    </div>
+                                    <div className="form-group mt-1">
+                                        <label>Enter Present Month Unit</label>
+                                        <input type="number" className="form-control" value={this.state.present} onChange={this.handlePresentChange} required/>
+                                    </div>
+                                    <input type="submit" className="btn btn-primary btn-block" value="Generate Present Bill"  />   
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                      <div className="col-sm-12 col-md-6">
+                        <div className="jumbotron mt-3">
+                            <strong>Past Month Units: 9809</strong>
+                            <p>Previous Month KWH used: {this.state.prev}</p>
+                            <p>Present Month KWH used: {this.state.present}</p>
+                            <p>Total Units used this Month: {this.state.result}</p>
+                            <p>Consumer charge: Rs. {this.state.charge}</p>
+                            <p>Energy Charges: {this.state.cost} </p>
+                            <p>Estimated Bill generated between Rs. {this.state.tbill} and Rs.{this.state.tbill+20} </p>
+        
+                            <p>Note:<mark>Cust Charges and Electricity duty charges are variable and also depends on RMD of your electricity meter</mark></p>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    
+                    
+                  </div>
+                  <div className="container-fluid" style={footer} >
+                      <div className="mt-3" style={{textAlign:'center'}} >{'\u00A9 Ebill Check, Inc.'}</div> 
+                      <div className="row">
+                          <div className="col-sm-12">
+                              <p style={{textAlign:'center'}}>Please Contact Admin for any issue</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            );
+          }
+        }
+         
+        
+        ReactDOM.render(
+          
+          <App/>,
+          document.getElementById("root")
+        )
+      </script>
+      
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
