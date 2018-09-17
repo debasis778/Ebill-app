@@ -54,48 +54,49 @@
                     
                       
                   });
+                  if(this.state.result>0 && this.state.result <=50){
+                  this.setState({
+                      cost:Math.round(this.state.result*1.45),
+                      charge:25,
+                      tbill:Math.round(this.state.cost+this.state.charge)
+                    });
+                    }
+                    //charge
+                    
+                    if(this.state.result>50 && this.state.result <=100){
+                        this.setState({
+                            cost:Math.round(this.state.result*2.60),
+                            charge:30,
+                            tbill:Math.round(this.state.cost+this.state.charge)
+                    });
+                    }
+                    if(this.state.result>100 && this.state.result <=200){
+                        this.setState({
+                            cost:Math.round(this.state.result*3.25),
+                            charge:50,
+                            tbill:Math.round(this.state.cost+this.state.charge)
+                    });
+                    }
+                    if(this.state.result>200 && this.state.result <=400){
+                        this.setState({
+                            cost:Math.round(this.state.result*4.80),
+                            charge:60,
+                            tbill:Math.round(this.state.cost+this.state.charge)
+                    });
+                    }
+                    if(this.state.result>400 ){
+                        this.setState({
+                            cost:Math.round(this.state.result*4.80),
+                            charge:80,
+                            tbill:Math.round(this.state.cost+this.state.charge)
+                    });
+                    }
               }
               else{
                   alert("Previous month value cannot be less than present month!! Please Check Properly")
               }
               //energy cost
-              if(this.state.result>0 && this.state.result <=50){
-                  this.setState({
-                      cost:Math.round(this.state.result*1.45),
-                      charge:25,
-                      tbill:Math.round(this.state.cost+this.state.charge)
-              });
-              }
-              //charge
               
-              if(this.state.result>50 && this.state.result <=100){
-                  this.setState({
-                      cost:Math.round(this.state.result*2.60),
-                      charge:30,
-                      tbill:Math.round(this.state.cost+this.state.charge)
-              });
-              }
-              if(this.state.result>100 && this.state.result <=200){
-                  this.setState({
-                      cost:Math.round(this.state.result*3.25),
-                      charge:50,
-                      tbill:Math.round(this.state.cost+this.state.charge)
-              });
-              }
-              if(this.state.result>200 && this.state.result <=400){
-                  this.setState({
-                      cost:Math.round(this.state.result*4.80),
-                      charge:60,
-                      tbill:Math.round(this.state.cost+this.state.charge)
-              });
-              }
-              if(this.state.result>400 ){
-                  this.setState({
-                      cost:Math.round(this.state.result*4.80),
-                      charge:80,
-                      tbill:Math.round(this.state.cost+this.state.charge)
-              });
-              }
         
           }
           render(){
@@ -170,7 +171,7 @@
                       </div>
                       <div className="col-sm-12 col-md-6">
                         <div className="jumbotron mt-3">
-                            <strong>Past Month Units: 9809</strong>
+                            <strong>Past Month Units: 9913</strong>
                             <p>Previous Month KWH used: {this.state.prev}</p>
                             <p>Present Month KWH used: {this.state.present}</p>
                             <p>Total Units used this Month: {this.state.result}</p>
